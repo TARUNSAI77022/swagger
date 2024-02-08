@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 public class Program
 {
@@ -10,14 +11,14 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        
+        builder.Host.ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+            webBuilder.UseUrls("http://[::]:80");
+        });
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.WebHost.ConfigureWebHostDefaults(webBuilder =>
-        {
-        webBuilder.UseStartup<Startup>();
-        webBuilder.UseUrls("http://[::]:80");
-       });
 
         var app = builder.Build();
 
